@@ -5,7 +5,13 @@ from subprocess import call
 # Set this to something if you wish to use truecrypt
 TRUECRYPT_VOLUME = ""
 # If using truecrypt ensure this points to the truecrypt mounted folder
-DIARY_FOLDER = ""
+# Diary config file: Mine says '~/Dropbox/My Notes/'
+DIARY_CONFIG_FILE = os.path.expanduser('~/.diary')
+try:
+    DIARY_CONFIG = map(str.strip, open(DIARY_CONFIG_FILE).readlines())
+except IOError:
+    DIARY_CONFIG = ['']
+DIARY_FOLDER = os.path.expanduser(DIARY_CONFIG[0])
 EDITOR = os.environ.get('EDITOR','vim')
 
 ED_ENABLED = False
@@ -26,7 +32,8 @@ def main():
 		mount_truecrypt()
 
 	if not diary_folder_exists():
-		print("Please specify a valid diary folder")
+		print("Please specify a valid diary folder, using a config file at "
+              "~/.diary")
 		return
 
 	action = ''
