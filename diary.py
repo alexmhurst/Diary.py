@@ -73,7 +73,7 @@ def dismount_truecrypt(arg):
 
 #Add a diary entry via the text supplied
 def add(text):
-	todays_diary = datetime.date.today().strftime("%Y-%m-%d") + ".txt"
+	todays_diary = 'Journal ' + datetime.date.today().strftime("%Y-%m-%d") + ".txt"
 	with open(get_diary_folder()+todays_diary, "a") as today:
 		today.write(text+"\n")
 		print("Added diary entry")
@@ -92,11 +92,11 @@ def random(text):
 
 #Edit a diary entry via the text supplied
 def edit(diary_date=None):
-	todays_diary = datetime.date.today().strftime("%Y-%m-%d") + ".txt"
+	todays_diary = 'Journal ' + datetime.date.today().strftime("%Y-%m-%d") + ".txt"
 	if diary_date==None:
 		diary_date = datetime.date.today().strftime("%Y-%m-%d")
 
-	abs_file = get_diary_folder() + diary_date + ".txt"
+	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
 	call([EDITOR, abs_file])
 
 
@@ -106,7 +106,7 @@ def list(diary_date=None):
 	if diary_date==None:
 		diary_date = datetime.date.today().strftime("%Y-%m-%d")
 
-	abs_file = get_diary_folder() + diary_date + ".txt"
+	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
 	if os.path.isfile(abs_file):
 		diary_file = open(abs_file,'r').read()
 		print(diary_file)
@@ -132,7 +132,7 @@ def stats(text):
 	ordered_list = {}
 	for infile in file_list:
 		abs_list = re.split('/',infile)
-		date = re.split('-', abs_list[-1][:-4])
+		date = re.split('-', abs_list[-1][8:-4])
 		file = open(infile,"r")
 		text = file.read()
 		tempwords = text.split(None)
