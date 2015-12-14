@@ -8,9 +8,9 @@ TRUECRYPT_VOLUME = ""
 # Diary config file: Mine says '~/Dropbox/My Notes/'
 DIARY_CONFIG_FILE = os.path.expanduser('~/.diary')
 try:
-    DIARY_CONFIG = map(str.strip, open(DIARY_CONFIG_FILE).readlines())
+	DIARY_CONFIG = map(str.strip, open(DIARY_CONFIG_FILE).readlines())
 except IOError:
-    DIARY_CONFIG = ['']
+	DIARY_CONFIG = ['']
 DIARY_FOLDER = os.path.expanduser(DIARY_CONFIG[0])
 EDITOR = os.environ.get('EDITOR','vim')
 
@@ -33,7 +33,7 @@ def main():
 
 	if not diary_folder_exists():
 		print("Please specify a valid diary folder, using a config file at "
-              "~/.diary")
+			  "~/.diary")
 		return
 
 	action = ''
