@@ -72,11 +72,25 @@ def dismount_truecrypt(arg):
 		os.popen('%s %s -d' % (TRUECRYPT_BINARY, TRUECRYPT_VOLUME))
 
 #Add a diary entry via the text supplied
-def add(text):
-	todays_diary = 'Journal ' + datetime.date.today().strftime("%Y-%m-%d") + ".txt"
-	with open(get_diary_folder()+todays_diary, "a") as today:
-		today.write(text+"\n")
-		print("Added diary entry")
+def add(text, diary_date=None):
+	if diary_date == None:
+		# Functions in function definitions resolve at definition time
+		diary_date = datetime.date.today().strftime("%Y-%m-%d")
+	if text == None:
+		text = ''
+
+	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
+	stamp = datetime.datetime.now().strftime('%T')
+
+	# Blank line if there are previous entries, otherwise none
+	if os.path.isfile(abs_file):
+		template = "\n{stamp}\n{content}"
+	else:
+		template = "{stamp}\n{content}"
+	content = text + ("\n" if text else "")
+	with open(abs_file, "a") as today:
+		today.write(template.format(stamp=stamp, content=content))
+	print("Added diary entry")
 
 def random(text):
 	file_list = glob.glob(os.path.join(get_diary_folder(), '*.txt'))
@@ -92,12 +106,15 @@ def random(text):
 
 #Edit a diary entry via the text supplied
 def edit(diary_date=None):
-	todays_diary = 'Journal ' + datetime.date.today().strftime("%Y-%m-%d") + ".txt"
 	if diary_date==None:
 		diary_date = datetime.date.today().strftime("%Y-%m-%d")
 
 	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
-	call([EDITOR, abs_file])
+	add(text=None, diary_date=diary_date)
+	with open(abs_file, 'a') as today:
+		today.write('\n')
+	call([EDITOR, "+9999999", '-c', 'startinsert',  abs_file])
+	# call([EDITOR, abs_file])
 
 
 #List a specific date or today
