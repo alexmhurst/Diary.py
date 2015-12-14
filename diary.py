@@ -195,7 +195,7 @@ def diary_folder_exists():
 		return os.path.isdir(get_diary_folder())
 	return False
 
-def help(argument):
+def help(argument=None):
 	print("Usage:")
 	print("\tdiary.py add 'Today I went to the @shops and bought some cake for the #party'")
 	print("\tdiary.py find 'search term'")
