@@ -61,7 +61,6 @@ def mount_truecrypt():
 		os.popen('%s %s' % (TRUECRYPT_BINARY, TRUECRYPT_VOLUME)).read()
 
 def resolve_date(diary_date=None):
-	todays_diary = datetime.date.today().strftime("%Y-%m-%d") + ".txt"
 	if diary_date==None:
 		return datetime.date.today().strftime("%Y-%m-%d")
 	elif diary_date=='yes':
