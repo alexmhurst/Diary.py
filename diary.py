@@ -63,8 +63,15 @@ def mount_truecrypt():
 def resolve_date(diary_date=None):
 	if diary_date==None:
 		return datetime.date.today().strftime("%Y-%m-%d")
-	elif diary_date=='yes':
-		return datetime.date.today().strftime("%Y-%m-%d")
+	elif isinstance(diary_date, datetime.datetime):
+		return diary_date
+	elif isinstance(diary_date, str) and diary_date.startswith('yes'):
+		return (datetime.date.today() - datetime.timedelta(days=1)
+            ).strftime("%Y-%m-%d")
+	else:
+		print('Invalid date format.')
+		help()
+		exit()
 
 def dismount_truecrypt(arg):
 	if diary_folder_exists():
@@ -72,9 +79,7 @@ def dismount_truecrypt(arg):
 
 #Add a diary entry via the text supplied
 def add(text, diary_date=None):
-	if diary_date == None:
-		# Functions in function definitions resolve at definition time
-		diary_date = datetime.date.today().strftime("%Y-%m-%d")
+	diary_date = resolve_date(diary_date)
 	if text == None:
 		text = ''
 
@@ -105,8 +110,7 @@ def random(text):
 
 #Edit a diary entry via the text supplied
 def edit(diary_date=None):
-	if diary_date==None:
-		diary_date = datetime.date.today().strftime("%Y-%m-%d")
+	diary_date = resolve_date(diary_date)
 
 	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
 	add(text=None, diary_date=diary_date)
@@ -119,8 +123,7 @@ def edit(diary_date=None):
 #List a specific date or today
 def list(diary_date=None):
 	"""List all elements for a specific date"""
-	if diary_date==None:
-		diary_date = datetime.date.today().strftime("%Y-%m-%d")
+	diary_date = resolve_date(diary_date)
 
 	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
 	if os.path.isfile(abs_file):
