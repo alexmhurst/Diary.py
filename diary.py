@@ -219,7 +219,7 @@ def help(argument=None):
 	print("\tdiary.py ls - Lists current day or date format specified")
 	print("\tdiary.py help - Displays this text")
 	print("\tdiary.py hide - Will unmount the truecrypt volume")
-	print("\tdiary.py edit - Edits current day or date specificed in format")
+	print("\tdiary.py edit - Edits current day or date specified in format")
 	print("\tdiary.py rand - Returns random element")
 	print("\tdiary.py stats - Prints monthly word-count of stats")
 
