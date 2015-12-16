@@ -42,7 +42,7 @@ def main():
 	if len(sys.argv) >= 2:
 		action=sys.argv[1]
 	if len(sys.argv) >= 3:
-		argument=sys.argv[2]
+		argument=' '.join(sys.argv[2:])
 	else:
 		argument=None
 
