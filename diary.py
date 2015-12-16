@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sys, os, datetime, glob, re, calendar
+import dateutil.parser as parser
 from subprocess import call
 
 # Set this to something if you wish to use truecrypt
@@ -62,16 +63,29 @@ def mount_truecrypt():
 
 def resolve_date(diary_date=None):
 	if diary_date==None:
-		return datetime.date.today().strftime("%Y-%m-%d")
+		date = datetime.date.today()
 	elif isinstance(diary_date, datetime.datetime):
-		return diary_date
-	elif isinstance(diary_date, str) and diary_date.startswith('yes'):
-		return (datetime.date.today() - datetime.timedelta(days=1)
-            ).strftime("%Y-%m-%d")
+		date = diary_date
+	elif isinstance(diary_date, str):
+		if diary_date.startswith('yes'):
+			date = datetime.date.today() - datetime.timedelta(days=1)
+		elif diary_date.startswith('tom'):
+			date = datetime.date.today() + datetime.timedelta(days=1)
+		elif diary_date.startswith('tod'):
+			date = datetime.date.today()
+		else:
+			try:
+				date = parser.parse(diary_date)
+			except ValueError:
+				print('Invalid date format.')
+				help()
+				exit()
 	else:
 		print('Invalid date format.')
 		help()
 		exit()
+
+	return date.strftime("%Y-%m-%d")
 
 def dismount_truecrypt(arg):
 	if diary_folder_exists():
@@ -95,6 +109,7 @@ def add(text, diary_date=None):
 	with open(abs_file, "a") as today:
 		today.write(template.format(stamp=stamp, content=content))
 	print("Added diary entry")
+	return abs_file
 
 def random(text):
 	file_list = glob.glob(os.path.join(get_diary_folder(), '*.txt'))
@@ -113,7 +128,7 @@ def edit(diary_date=None):
 	diary_date = resolve_date(diary_date)
 
 	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
-	add(text=None, diary_date=diary_date)
+	abs_file = add(text=None, diary_date=diary_date)
 	with open(abs_file, 'a') as today:
 		today.write('\n')
 	call([EDITOR, "+9999999", '-c', 'startinsert',  abs_file])
