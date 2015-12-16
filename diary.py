@@ -127,7 +127,6 @@ def random(text):
 def edit(diary_date=None):
 	diary_date = resolve_date(diary_date)
 
-	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
 	abs_file = add(text=None, diary_date=diary_date)
 	with open(abs_file, 'a') as today:
 		today.write('\n')
