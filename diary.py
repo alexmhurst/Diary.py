@@ -164,20 +164,28 @@ def stats(text):
 	file_list.sort()
 	ordered_list = {}
 	for infile in file_list:
-		abs_list = re.split('/',infile)
-		date = re.split('-', abs_list[-1][8:-4])
+		infile_fullname = os.path.basename(infile)
+		infile_name = os.path.splitext(infile_fullname)[0]
+		# Only accommdates filenames like "<something> <date>.ext"
+		datestr = infile_name.split(' ')[-1]
+		try:
+			date = parser.parse(datestr)
+		except ValueError:
+			print("Skipping because we didn't find a date in the filename: " +
+					infile_name)
+			continue
 		file = open(infile,"r")
 		text = file.read()
 		tempwords = text.split(None)
 
-		if int(date[0]) in ordered_list:
-			if int(date[1]) in ordered_list[int(date[0])]:
-				ordered_list[int(date[0])][int(date[1])] += len(tempwords)
+		if date.year in ordered_list:
+			if date.month in ordered_list[date.year]:
+				ordered_list[date.year][date.month] += len(tempwords)
 			else:
-				ordered_list[int(date[0])][int(date[1])] = len(tempwords)
+				ordered_list[date.year][date.month] = len(tempwords)
 		else:
-			ordered_list[int(date[0])] = {}
-			ordered_list[int(date[0])][int(date[1])] = len(tempwords)
+			ordered_list[date.year] = {}
+			ordered_list[date.year][date.month] = len(tempwords)
 	years = sorted(ordered_list.iteritems())
 	print("Word Count By Month\n")
 	for year in years:
