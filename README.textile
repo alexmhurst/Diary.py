@@ -2,13 +2,13 @@ h1. DIARY.PY A command line diary tool
 
 A simple and extensible shell script for managing your diary entries
 
-h2. "Downloads":https://github.com/alexthehurst/Diary.py/downloads
+h2. "Download":https://github.com/alexthehurst/Diary.py/archive/master.zip
 
 h2. What it does
 
 Creates a separate diary entry for each file so 2012-02-29.txt.
 
-You can create, search and list todays entries easily.
+You can create, search and list today's entries easily.
 
 
 h2. Installation
