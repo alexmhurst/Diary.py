@@ -2,7 +2,7 @@ h1. DIARY.PY A command line diary tool
 
 A simple and extensible shell script for managing your diary entries
 
-h2. "Downloads":https://github.com/shanedowling/Diary.py/downloads
+h2. "Downloads":https://github.com/alexthehurst/Diary.py/downloads
 
 h2. What it does
 
