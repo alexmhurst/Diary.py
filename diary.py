@@ -48,7 +48,7 @@ def main():
 		argument=None
 
 	{'add': add,
-			'ls': list,
+			'cat' : cat,
 			'find': d_search,
 			'help': help,
 			'hide': dismount_truecrypt,
@@ -135,7 +135,7 @@ def edit(diary_date=None):
 
 
 #List a specific date or today
-def list(diary_date=None):
+def cat(diary_date=None):
 	"""List all elements for a specific date"""
 	diary_date = resolve_date(diary_date)
 
@@ -225,7 +225,7 @@ def help(argument=None):
 	print("Usage:")
 	print("\tdiary.py add 'Today I went to the @shops and bought some cake for the #party'")
 	print("\tdiary.py find 'search term'")
-	print("\tdiary.py ls - Lists current day or date format specified")
+	print("\tdiary.py cat - Prints current day or date format specified")
 	print("\tdiary.py help - Displays this text")
 	print("\tdiary.py hide - Will unmount the truecrypt volume")
 	print("\tdiary.py edit - Edits current day or date specified in format")
