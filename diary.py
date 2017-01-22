@@ -113,8 +113,7 @@ def add(text, diary_date=None):
 	return abs_file
 
 def random(text):
-	file_list = glob.glob(os.path.join(get_diary_folder(), '*.txt'))
-	file_list.sort()
+	file_list = get_diary_files()
 	from random import choice
 	random_date = choice(file_list)
 	if os.path.isfile(random_date):
@@ -150,8 +149,7 @@ def cat(diary_date=None):
 
 #Search all files for a supplied pattern
 def d_search(pattern):
-	file_list = glob.glob(os.path.join(get_diary_folder(), '*.txt'))
-	file_list.sort()
+	file_list = get_diary_files()
 	for infile in file_list:
 		file = open(infile,"r")
 		text = file.read()
@@ -162,8 +160,7 @@ def d_search(pattern):
 
 #Build up stats by month and year
 def stats(text):
-	file_list = glob.glob(os.path.join(get_diary_folder(), '*.txt'))
-	file_list.sort()
+	file_list = get_diary_files()
 	ordered_list = {}
 	for infile in file_list:
 		infile_fullname = os.path.basename(infile)
@@ -199,10 +196,10 @@ def stats(text):
 					print("%s" % calendar.month_abbr[date], word_count)
 
 def list(argument):
-	diary_folder = get_diary_folder()
-	for path in [p for p in os.listdir(diary_folder) if re.match('^Journal ', p)]:
-		print(path);
-	print("Diary folder is " + diary_folder)
+	file_list = get_diary_files()
+	for path in file_list:
+		print(os.path.basename(path))
+	print("Diary folder is " + get_diary_folder())
 
 
 #Searches the specific file for text
@@ -225,6 +222,11 @@ def diary_folder_exists():
 	if get_diary_folder() != False:
 		return os.path.isdir(get_diary_folder())
 	return False
+
+def get_diary_files():
+	file_list = glob.glob(os.path.join(get_diary_folder(), 'Journal *.txt'))
+	file_list.sort()
+	return file_list
 
 def help(argument=None):
 	print("Usage:")
