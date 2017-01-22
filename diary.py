@@ -141,6 +141,7 @@ def list(diary_date=None):
 
 	abs_file = get_diary_folder() + 'Journal ' + diary_date + ".txt"
 	if os.path.isfile(abs_file):
+		print(abs_file + "\n")
 		diary_file = open(abs_file,'r').read()
 		print(diary_file)
 	else:
