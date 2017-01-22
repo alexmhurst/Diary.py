@@ -48,6 +48,7 @@ def main():
 		argument=None
 
 	{'add': add,
+			'ls': list,
 			'cat' : cat,
 			'find': d_search,
 			'help': help,
@@ -197,7 +198,11 @@ def stats(text):
 				for date, word_count in month.iteritems():
 					print("%s" % calendar.month_abbr[date], word_count)
 
-
+def list(argument):
+	diary_folder = get_diary_folder()
+	for path in [p for p in os.listdir(diary_folder) if re.match('^Journal ', p)]:
+		print(path);
+	print("Diary folder is " + diary_folder)
 
 
 #Searches the specific file for text
@@ -225,7 +230,8 @@ def help(argument=None):
 	print("Usage:")
 	print("\tdiary.py add 'Today I went to the @shops and bought some cake for the #party'")
 	print("\tdiary.py find 'search term'")
-	print("\tdiary.py cat - Prints current day or date format specified")
+	print("\tdiary.py cat  - Prints current day or date format specified")
+	print("\tdiary.py ls   - Lists all available entries")
 	print("\tdiary.py help - Displays this text")
 	print("\tdiary.py hide - Will unmount the truecrypt volume")
 	print("\tdiary.py edit - Edits current day or date specified in format")
