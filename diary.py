@@ -68,12 +68,43 @@ def resolve_date(diary_date=None):
 	elif isinstance(diary_date, datetime.datetime):
 		date = diary_date
 	elif isinstance(diary_date, str):
+		dates = []
+		for file in get_diary_files():
+			try:
+				dates.append(
+					re.search(
+						'Journal (\d\d\d\d-\d\d-\d\d).txt',
+						os.path.basename(file)
+					).groups()[0]
+				)
+			except AttributeError:  # no match
+				pass
+
 		if diary_date.startswith('yes'):
 			date = datetime.date.today() - datetime.timedelta(days=1)
 		elif diary_date.startswith('tom'):
 			date = datetime.date.today() + datetime.timedelta(days=1)
 		elif diary_date.startswith('tod'):
 			date = datetime.date.today()
+		elif diary_date.startswith('last'):
+			files = get_diary_files()
+			datestamp = dates[-1]
+			try:
+				date = parser.parse(datestamp)
+			except ValueError:
+				print('Invalid date format.')
+				help()
+				exit()
+		elif (diary_date.isdigit()
+				or (diary_date.startswith('-') and diary_date[1:].isdigit())
+		):
+			datestamp = dates[int(float(diary_date))]
+			try:
+				date = parser.parse(datestamp)
+			except ValueError:
+				print('Invalid date format.')
+				help()
+				exit()
 		else:
 			try:
 				date = parser.parse(diary_date)
@@ -239,6 +270,7 @@ def help(argument=None):
 	print("\tdiary.py edit - Edits current day or date specified in format")
 	print("\tdiary.py rand - Returns random element")
 	print("\tdiary.py stats - Prints monthly word-count of stats")
+	print("\tDates can be yesterday, today, tomorrow, last, or integer offset")
 
 if __name__ == '__main__':
 	main()
