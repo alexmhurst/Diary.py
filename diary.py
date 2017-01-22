@@ -171,7 +171,7 @@ def stats(text):
 		datestr = infile_name.split(' ')[-1]
 		try:
 			date = parser.parse(datestr)
-		except ValueError:
+		except (TypeError, ValueError):
 			print("Skipping because we didn't find a date in the filename: " +
 					infile_name)
 			continue
