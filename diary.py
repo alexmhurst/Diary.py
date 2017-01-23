@@ -180,6 +180,7 @@ def cat(diary_date=None):
 
 #Search all files for a supplied pattern
 def d_search(pattern):
+	pattern = pattern or str(raw_input('Find what: '))
 	file_list = get_diary_files()
 	for infile in file_list:
 		file = open(infile,"r")
