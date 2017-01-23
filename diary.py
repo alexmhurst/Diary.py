@@ -161,7 +161,14 @@ def edit(diary_date=None):
 	abs_file = add(text=None, diary_date=diary_date)
 	with open(abs_file, 'a') as today:
 		today.write('\n')
-	call([EDITOR, "+9999999", '-c', 'startinsert',  abs_file])
+	call([
+		EDITOR,
+		"+set syntax=markdown",
+		"+9999999",
+		'-c',
+		'startinsert',
+		abs_file
+	])
 	# call([EDITOR, abs_file])
 
 
