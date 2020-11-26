@@ -164,6 +164,7 @@ def edit(diary_date=None):
 	call([
 		EDITOR,
 		"+set syntax=markdown",
+		"+set ft=markdown",
 		"+9999999",
 		'-c',
 		'startinsert',
